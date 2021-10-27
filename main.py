@@ -1,10 +1,26 @@
 import boto3
+import random
+import os
+from dotenv import load_dotenv
 
-def lambda_handler(event, context):
-    ecs = boto3.client('ecs', region_name="eu-west-1")    
+load_dotenv()
+ecs = boto3.client('ecs', region_name="eu-west-1")
+cluster=os.environ.get("CLUSTER_NAME")
+region=os.environ.get("REGION")
+
+def lambda_handler():
     response = ecs.list_services(
-        cluster="charging-alpha-ecs-stack-ECSCluster-ra3zd0x3o98P",
+        cluster=cluster,
         )
-    print(response['serviceArns'])
+    services = response['serviceArns']
+    return services
 
-lambda_handler(event="something",context="something")
+def describe_services():
+    response = ecs.delete_service(
+        cluster=cluster,
+        service=random.choice(lambda_handler())
+    )
+    print(response)
+
+
+describe_services()
