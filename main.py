@@ -4,9 +4,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-ecs = boto3.client('ecs', region_name="eu-west-1")
 cluster=os.environ.get("CLUSTER_NAME")
 region=os.environ.get("REGION")
+ecs = boto3.client('ecs', region_name=region)
 
 def lambda_handler():
     response = ecs.list_services(
