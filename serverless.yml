@@ -19,7 +19,7 @@ provider:
 
 functions:
   function:
-    handler: handler.handler
+    handler: handler.delete_random_service
     events:
       - schedule:
           rate: rate(10 minutes)
